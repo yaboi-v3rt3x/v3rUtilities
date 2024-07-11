@@ -3,8 +3,8 @@ v3rBot is a Roblox self bot created by @yaboi_v3rt3x.
 It's source code was forked from [LunerBot](https://github.com/probablYnicKxD/ProjectLunar/blob/main/LunarBot) and modified by @yaboi_v3rt3x.
 
 ## Available Commands
-cmds                      | Lists all commands!
-setprefix <newPrefix>     | Sets the prefix of v3rBot! Owner-only command!
+cmds                      | Lists all commands!  
+setprefix <newPrefix>     | Sets the prefix of v3rBot! Owner-only command!  
 help <command>            | Tells you the use of the given command!
 aliases <command>         | Lists the aliases for the given command!
 ping                      | Chats v3rBot's ping!
