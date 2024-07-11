@@ -95,10 +95,10 @@ local funfacts = {
 local messageReceived = game.TextChatService.TextChannels.RBXGeneral.MessageReceived
 
 local commandsMessage = {
-	"cmds, setprefix <newPrefix>, help <command>, aliases <command>, ping, executor, setinterval, setstatus <newStatus>, clearStatus, jobid, fps, time,"
-	"to, speed, reset, coinflip, jump, sit, follow, unfollow, orbit <speed> <radius>, spin <speed>, copychat <player>, catch <player>, float <height>,"
-	"funfact, rush, randommove, randomplayer, rickroll, random <min> <max>, pick <options>, announce <announcement>, gamename, playercount, maxplayers,"
-	"whitelist <player>, blacklist <player>,  bring, walkto <player>, disablecommand <command>, math <operation> <nums>, changelogs, toggleall, lua <lua>"
+	"cmds, setprefix <newPrefix>, help <command>, aliases <command>, ping, executor, setstatus <newStatus>, clearStatus, fps, time, to, speed, say, altcontrol"
+	"reset, coinflip, jump, sit, follow, unfollow, orbit <speed> <radius>, spin <speed>, unspin, copychat <player>, uncopychat, float <height>, unfloat,"
+	"funfact, rush, randommove, randomplayer, rickroll, random <min> <max>, pick <options>, announce <announcement>, playercount, maxplayers, gamename,"
+	"catch <player>, whitelist <player>, blacklist <player>,  bring, walkto <player>, enablecommand, disablecommand <command>, math <operation> <nums>"
 }
 
 local orbitcon
@@ -196,7 +196,7 @@ commands = {
 	help = {
 		Name = "help",
 		Aliases = {"help"},
-		Use = "Tells you the use of <command>!",
+		Use = "Tells you the use of the given command!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			task.spawn(function()
@@ -301,61 +301,6 @@ commands = {
 			chat("Executor: " .. identifyexecutor() or "Unknown")
 		end,
 	},
-	lua = {
-		Name = "lua",
-		Aliases = {"runlua", "run", "luau"},
-		Use = "Gives you the executor that is running v3rBot!",
-		Enabled = true,
-		CommandFunction = function(msg, args, speaker)
-			if speaker ~= bot.Name then
-				chat("You do not have permission to run LuaU from v3rBot.")
-				return
-			end
-			
-			local torun = string.sub(msg, 5)
-			
-			local success, errMsg = pcall(function()
-				loadstring(torun)()
-			end)
-			
-			if success then
-				chat("Successfully ran LuaU with no errors.")
-			elseif not success and errMsg then
-				chat("Failed to run LuaU with error in Developer Console [F9]!")
-			end
-		end,
-	},
-	setinterval = {
-		Name = "setinterval",
-		Aliases = {"setrandommoveinterval", "setint", "setinteger"},
-		Use = "Respawns v3rBot!",
-		Enabled = true,
-		CommandFunction = function(msg, args, speaker)
-			if speaker ~= bot.Name then return end
-		
-			if not args[2] then return end
-			if not tonumber(args[2]) then return end
-		
-			randommoveinteger = tonumber(args[2])
-		end,
-	},
-	toggleall = {
-		Name = "toggleall",
-		Aliases = {"all", "allwl", "wlall"},
-		Use = "Respawns v3rBot!",
-		Enabled = true,
-		CommandFunction = function(msg, args, speaker)
-			task.spawn(function()
-				if speaker ~= bot.Name then return end
-			
-				allwhitelisted = not allwhitelisted
-				
-				wait()
-				
-				chat("Set all_whitelisted to " .. tostring(allwhitelisted))
-			end)
-		end,
-	},
 	gamename = {
 		Name = "gamename",
 		Aliases = {"gn"},
@@ -386,7 +331,7 @@ commands = {
 	unfollow = {
 		Name = "unfollow",
 		Aliases = {"unfollowplr"},
-		Use = "Respawns v3rBot!",
+		Use = "Stops following the player!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			pcall(function()
@@ -401,7 +346,7 @@ commands = {
 	follow = {
 		Name = "follow",
 		Aliases = {"followplr"},
-		Use = "Makes v3rBot follow you or the given player!",
+		Use = "Makes v3rBot follow the player that chatted the command or the given player!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			local plr
@@ -428,19 +373,10 @@ commands = {
 			followplr = plr
 		end,
 	},
-	jobid = {
-		Name = "jobid",
-		Aliases = {"serverid"},
-		Use = "Returns the current server's Server ID, or Job ID.",
-		Enabled = true,
-		CommandFunction = function(msg, args, speaker)
-			chat(game.JobId)
-		end,
-	},
 	pick = {
 		Name = "pick",
 		Aliases = {"choose"},
-		Use = "Picks an item from the given arguments.",
+		Use = "Picks an item from the given options.",
 		Enabled = true,
 		CommandFunction = function(msg, args)
 			local choosefrom = {}
@@ -476,6 +412,27 @@ commands = {
 			bot.Character.Humanoid.Jump = true
 		end,
 	},
+	say = {
+		Name = "say",
+		Aliases = {"chat"},
+		Use = "Says the given message in chat!",
+		Enabled = true,
+		CommandFunction = function(msg, args, speaker)
+			local tosay
+			
+			if args[1] == "say" then
+				tosay = string.sub(msg, 6)
+			else
+				tosay = string.sub(msg, 8)
+			end
+			
+			local speakerplayer = game.Players:FindFirstChild(speaker)
+			
+			if not speakerplayer then return end
+			
+			if altctrl then chat(tosay) else chat(speakerplayer.DisplayName .. ": " .. tosay) end
+		end,
+	},
 	announce = {
 		Name = "announce",
 		Aliases = {},
@@ -494,7 +451,7 @@ commands = {
 	whitelist = {
 		Name = "whitelist",
 		Aliases = {"wl"},
-		Use = "Whitelists a player, meaning they can use v3rBot. An owner-only command!",
+		Use = "Whitelists the given player, meaning they can use v3rBot. An owner-only command!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			local towhitelist = args[2]
@@ -530,7 +487,7 @@ commands = {
 	blacklist = {
 		Name = "blacklist",
 		Aliases = {"bl"},
-		Use = "Blacklists a player meaning they cannot use v3rBot. Owner-only command!",
+		Use = "Blacklists the given player meaning they cannot use v3rBot. Owner-only command!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			local toblacklist = args[2]
@@ -626,7 +583,7 @@ commands = {
 	copychat = {
 		Name = "copychat",
 		Aliases = {"cc", "copyc", "cchat"},
-		Use = "Makes v3rBot copy everything the given player says.",
+		Use = "Makes v3rBot copy everything the given player says. Using on v3rbot will break v3rBot.",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			pcall(function()
@@ -670,7 +627,7 @@ commands = {
 	to = {
 		Name = "to",
 		Aliases = {},
-		Use = "Teleports v3rBot to the <player> given.",
+		Use = "Teleports v3rBot to the given player.",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			pcall(function()
@@ -697,7 +654,7 @@ commands = {
 	walkto = {
 		Name = "walkto",
 		Aliases = {"come"},
-		Use = "Makes v3rBot walk to you or the given player!",
+		Use = "Makes v3rBot walk to the player that chatted the command or the given player!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			pcall(function()
@@ -777,7 +734,7 @@ commands = {
 	funfact = {
 		Name = "funfact",
 		Aliases = {"fact", "randomfact"},
-		Use = "Gives you a random fun fact!",
+		Use = "Chats a random fun fact!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			pcall(function()
@@ -822,7 +779,7 @@ commands = {
 	walkspeed = {
 		Name = "walkspeed",
 		Aliases = {"speed"},
-		Use = "Sets v3rBot's walkspeed to <speed>!",
+		Use = "Sets v3rBot's walkspeed to given speed!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			pcall(function()
@@ -854,7 +811,7 @@ commands = {
 	math = {
 		Name = "math",
 		Aliases = {},
-		Use = "Does <operation> on arguments.",
+		Use = "Does the given operation on the given arguments.",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			pcall(function()
@@ -960,14 +917,14 @@ commands = {
 	randomplayer = {
 		Name = "randomplayer",
 		Aliases = {"rndplayer", "randomplr", "player"},
-		Use = "Gets a random player that is currently in the server and chats their display name!",
+		Use = "Gets a random player that is currently in the server and chats their name!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			pcall(function()
 				local rnd = game.Players:GetPlayers()[math.random(1,#game.Players:GetPlayers())]
 				
 				if rnd then
-					chat("Random player: " .. rnd.DisplayName)
+					chat("Random player: " .. rnd.DisplayName .. "(" .. rnd.Name .. ")")
 				end
 			end)
 		end,
@@ -1099,7 +1056,7 @@ commands = {
 	orbit = {
 		Name = "orbit",
 		Aliases = {"orbit"},
-		Use = "Orbits the bot around you!",
+		Use = "Orbits the bot around the given player!",
 		Enabled = true,
 		CommandFunction = function(msg, args, speaker)
 			pcall(function()
