@@ -4,6 +4,7 @@ It's source code was forked from [LunerBot](https://github.com/probablYnicKxD/Pr
 
 ## Available Commands
 cmds                      | Lists all commands!
+
 setprefix <newPrefix>     | Sets the prefix of v3rBot! Owner-only command!
 help <command>            | Tells you the use of the given command!
 aliases <command>         | Lists the aliases for the given command!
@@ -15,7 +16,7 @@ fps                       | Chats v3rBot's current FPS!
 time                      | Gives you v3rBot's current time in its timezone.
 to                        | Teleports v3rBot to the given player.
 speed                     | Sets v3rBot's walkspeed to given speed!
-say                       |
+say                       | Says the given message in chat!
 alrcontrol                | Removes the name from the say command.
 unaltcontrol              | Adds the name to the say command.
 reset                     | Respawns v3rBot!
