@@ -4,7 +4,6 @@ It's source code was forked from [LunerBot](https://github.com/probablYnicKxD/Pr
 
 ## Available Commands
 cmds                      | Lists all commands!
-
 setprefix <newPrefix>     | Sets the prefix of v3rBot! Owner-only command!
 help <command>            | Tells you the use of the given command!
 aliases <command>         | Lists the aliases for the given command!
