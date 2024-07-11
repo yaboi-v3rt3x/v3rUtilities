@@ -1,14 +1,32 @@
-local plr = game.Players.LocalPlayer
+getgenv().SecureMode = true
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local menu = Instance.new('ScreenGui')
-menu.Name = "v3rMenu"
-menu.Parent = plr.PlayerGui
+local Window = Rayfield:CreateWindow({
+   Name = "v3rMenu",
+   LoadingTitle = "v3rMenu",
+   LoadingSubtitle = "by v3rt3x",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = v3rHub, 
+      FileName = "config"
+   },
+   Discord = {
+      Enabled = false,
+      Invite = "noinvitelink",
+      RememberJoins = true
+   },
+   KeySystem = false,
+   KeySettings = {
+      Title = "v3rMenu",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided",
+      FileName = "Key",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"v3rt3x"} 
+   }
+})
 
-local UIframe = Instance.new('Frame')
-UIframe.Parent = menu
-UIframe.AnchorPoint = Vector2.new(0.5, 0.5)
-UIframe.Position = UDim2.new(0.5,0,0.5,0)
-UIframe.Size = UDim2.new(0, 500, 0, 350)
-local UICorner = Instance.new('UICorner')
-UICorner.Parent = UIframe
-UICorner.CornerRadius = UDim.new(0, 25)
+
+
+Rayfield:LoadConfiguration()
