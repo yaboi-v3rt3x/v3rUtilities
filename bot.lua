@@ -95,9 +95,9 @@ local funfacts = {
 local messageReceived = game.TextChatService.TextChannels.RBXGeneral.MessageReceived
 
 local commandsMessage = {
-	"cmds, setprefix <newPrefix>, help <command>, aliases <command>, ping, executor, setstatus <newStatus>, clearStatus, fps, time, to, speed, say, altcontrol"
-	"reset, coinflip, jump, sit, follow, unfollow, orbit <speed> <radius>, spin <speed>, unspin, copychat <player>, uncopychat, float <height>, unfloat,"
-	"funfact, rush, randommove, randomplayer, rickroll, random <min> <max>, pick <options>, announce <announcement>, playercount, maxplayers, gamename,"
+	"cmds, setprefix <newPrefix>, help <command>, aliases <command>, ping, executor, setstatus <newStatus>, clearStatus, fps, time, to, speed, say, altcontrol",
+	"reset, coinflip, jump, sit, follow, unfollow, orbit <speed> <radius>, spin <speed>, unspin, copychat <player>, uncopychat, float <height>, unfloat,",
+	"funfact, rush, randommove, randomplayer, rickroll, random <min> <max>, pick <options>, announce <announcement>, playercount, maxplayers, gamename,",
 	"catch <player>, whitelist <player>, blacklist <player>,  bring, walkto <player>, enablecommand, disablecommand <command>, math <operation> <nums>"
 }
 
